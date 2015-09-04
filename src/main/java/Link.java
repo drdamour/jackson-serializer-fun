@@ -1,7 +1,7 @@
 
-public class Item {
+public class Link {
     private final String name;
-    public Item(String name){
+    public Link(String name){
         this.name = name;
     }
 

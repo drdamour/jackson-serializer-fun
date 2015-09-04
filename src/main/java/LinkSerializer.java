@@ -8,14 +8,14 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
 import java.io.IOException;
 
-public class ItemSerializer extends StdSerializer<Item> implements ContextualSerializer {
+public class LinkSerializer extends StdSerializer<Link> implements ContextualSerializer {
 
-    public ItemSerializer() {
-        super(Item.class);
+    public LinkSerializer() {
+        super(Link.class);
     }
 
     @Override
-    public void serialize(Item value, JsonGenerator gen, SerializerProvider provider) throws IOException {
+    public void serialize(Link value, JsonGenerator gen, SerializerProvider provider) throws IOException {
         int i = 5;
 
     }

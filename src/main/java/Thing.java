@@ -1,17 +1,11 @@
 
 public class Thing {
-    private Item a = new Item("item a");
-    public Item getA(){
-        return a;
+    private final String title;
+    public Thing(String title){
+        this.title = title;
     }
 
-    private Item b = new Item("item b");
-    public Item getB(){
-        return b;
-    }
-
-    private Other c = new Other("other c");
-    public Other getC(){
-        return c;
+    public String getTitle(){
+        return title;
     }
 }

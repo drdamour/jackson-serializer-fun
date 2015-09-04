@@ -1,5 +1,6 @@
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.ser.BeanPropertyWriter;
 import com.fasterxml.jackson.databind.ser.impl.BeanAsArraySerializer;
 import com.fasterxml.jackson.databind.ser.impl.ObjectIdWriter;
 import com.fasterxml.jackson.databind.ser.std.BeanSerializerBase;
@@ -7,6 +8,7 @@ import com.fasterxml.jackson.databind.ser.std.BeanSerializerBase;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ResourceSerializer extends BeanSerializerBase {
 
@@ -40,12 +42,19 @@ public class ResourceSerializer extends BeanSerializerBase {
 
     public void serializeControls(Object bean, JsonGenerator gen, SerializerProvider provider) throws IOException {
         gen.writeFieldName("_links");
-        gen.writeStartObject();
+        gen.writeStartArray();
 
-        Object x = Arrays.stream(_props)
-            .filter(p -> Link.class.isAssignableFrom(p.getPropertyType()))
-            .collect(Collectors.groupingBy(p -> p.get()))
-        gen.writeEndObject();
+        Stream<BeanPropertyWriter> x = Arrays.stream(_props)
+            .filter(p -> Link.class.isAssignableFrom(p.getPropertyType()));
+
+        x.forEach(p -> {
+            try {
+                p.serializeAsElement(bean, gen, provider);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+        gen.writeEndArray();
 
     }
 

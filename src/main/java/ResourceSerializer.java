@@ -47,6 +47,7 @@ public class ResourceSerializer extends BeanSerializerBase {
         Stream<BeanPropertyWriter> x = Arrays.stream(_props)
             .filter(p -> Link.class.isAssignableFrom(p.getPropertyType()));
 
+        //TODO: group by rel, serialize each rel.  Keep in mind that some should be {} and others []
         x.forEach(p -> {
             try {
                 p.serializeAsElement(bean, gen, provider);
